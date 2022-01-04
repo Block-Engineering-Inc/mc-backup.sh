@@ -7,9 +7,8 @@ serverName="survival"
 startScript="/opt/minecraft/survival/start.sh"
 gracePeriod="30s"
 serverWorlds=("world")
-serviceName="minecraft@survival"
+serviceName="minecraft@survival.service"
 minecraftUser="minecraft"
-serverUser="ubuntu"
 
 # Program Oriented
 currentDay=$(date +"%Y-%m-%d-%H:%M")

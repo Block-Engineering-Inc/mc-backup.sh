@@ -10,10 +10,10 @@ stopMessage () {
     sleep 5
 }
 stopServer(){
-    sudo -u $serverUser service $serviceName stop
+    sudo systemctl stop $serviceName
     log "[$currentDay] Stopped Service $serviceName"
 }
 startServer(){
-    sudo -u $serverUser service $serviceName start
+    sudo systemctl start $serviceName
     log "[$currentDay] Started Service $serviceName"
 }
