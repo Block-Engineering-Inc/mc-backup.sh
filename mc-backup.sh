@@ -8,7 +8,6 @@ dirname=${path_to_file%/*}
 
 required_files=(constants.sh)
 
-screens=$(ls /var/run/screen/S-$USER -1 | wc -l || 0)
 serverRunning=true
 worldsOnly=false
 pluginOnly=false
@@ -25,7 +24,7 @@ log () {
 
 for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
 
-source constants.sh
+source $dirname/constants.sh
 
 worldfoldercheck () {
     # Checks to make sure all the worlds defined in serverWorlds array exist as directories
@@ -73,6 +72,9 @@ do
       -pc|--pluginconfig)
         pluginconfigOnly=true
         ;;
+      -r|--restart)
+        startStop=true
+        ;;
       *)
       echo "[$currentDay] Error: Invalid argument: ${1}\n"
       ;;
@@ -101,17 +103,23 @@ if ! ps -e | grep -q "java"; then
     serverRunning=false
 fi
 
-if [ $screens -eq 0 ]; then
-    log "[$currentDay] Error: No screen sessions running! Backup has been cancelled.\n"
-    $exit 1
-elif [ $screens -gt 1 ]; then
-    log "\n[$currentDay] Error: More than 1 screen session is running! Backup has been cancelled.\n"
+if [[ $(whoami) != $serverUser ]]; then
+    log "[$currentDay] Please use the user set constants.sh."
     $exit 1
 fi
-# Wont do anything if server is running
+
+# Wont do anything if server is running - Stop it
 if $serverRunning; then
-    log "[$currentDay] Server is running. Exiting..."
-    $exit 1
+    log "[$currentDay] Server is running. Stopping it..."
+    # Restart the server logic
+    source $dirname/mc-management-server.sh
+    
+    stopMessage
+    log "[$currentDay] Sent players message"
+
+    stopServer
+    log "[$currentDay] Server stopped"
+    serverRunning=false
 fi
 
 # Grabs date in seconds BEFORE compression begins
@@ -133,6 +141,8 @@ elif $pluginOnly; then
 elif $pluginconfigOnly; then
     log "[$currentDay] Plugin Configs only started...\n"
     tar -czPf $backupDir/$serverName[PLUGIN-CONFIG]-$currentDay.tar.gz --exclude='*.jar' $serverDir/plugins
+elif $startStop; then
+    log "[$currentDay] Skipping backup\n"
 else
     log "[$currentDay] Full compression started...\n"
     tar -czPf $backupDir/$serverName-$currentDay.tar.gz $serverDir
@@ -152,10 +162,18 @@ elif $pluginOnly; then
     log "[$currentDay] $serverDir/plugins* compressed from $uncompressedSize to $compressedSize and copied to $backupDir in $((elapsed/60)) min(s)!\n"
 elif $pluginconfigOnly; then
     log "[$currentDay] Plugin configs compressed from $uncompressedSize to $compressedSize and copied to $backupDir in $((elapsed/60)) min(s)!\n"
+elif $startStop; then
+    log "[$currentDay] Restart in progress."
 else
     # Grabs size of Server file in kb for comparison on output
     uncompressedSize=$(du -sh $serverDir* | cut -c 1-3)
     log "[$currentDay] $serverDir compressed from $uncompressedSize to $compressedSize and copied to $backupDir in $((elapsed/60)) min(s)!\n"
 fi
 
+if ! $serverRunning; then
+    # start back again
+
+    startServer
+    log "[$currentDay] Server is starting."
+fi
 $exit 0

@@ -8,6 +8,9 @@ A BASH script to automate graceful restarting & local backups of a Minecraft ser
 - **serverName** = The name of your server.  
 - **startScript** = The command to restart the server. Keep in mind this is run from the screen session.  
 - **serverWorlds** = An array of the servers world directory names. Includes defaults, add any of your custom worlds, seperated by a space. (ex: "arena" "lobby" "creative")  
+- **serviceName** = Name given when started the service. Used in `service $serviceName status`
+- **serverUser** = User with sudo privileges
+- **minecraftUser** = What username is the server running on
 
 2. Do not forget that the scripts relly on Minecraft running as a service. For more info check [this-link](https://linuxconfig.org/ubuntu-20-04-minecraft-server-setup).
 
