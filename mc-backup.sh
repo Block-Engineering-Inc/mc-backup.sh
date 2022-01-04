@@ -113,7 +113,7 @@ fi
 if $serverRunning; then
     log "[$currentDay] Server is running. Stopping it..."
     # Restart the server logic
-    source $dirname/mc-management-server.sh
+    source $dirname/mc-manage-server.sh
     
     stopMessage
     log "[$currentDay] Sent players message"
