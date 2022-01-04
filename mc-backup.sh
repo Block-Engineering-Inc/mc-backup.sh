@@ -12,6 +12,7 @@ serverRunning=true
 worldsOnly=false
 pluginOnly=false
 pluginconfigOnly=false
+startStop=false
 
 exit=$( [[ $0 == -bash ]] && echo return || echo exit )
 
