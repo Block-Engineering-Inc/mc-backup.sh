@@ -40,7 +40,7 @@ deleteBackup () {
     # Deletes contents of backupDir at start of every execution
     if [ "$(ls -A $backupDir)" ]; then
 	log "[$currentDay] Warning: Backup directory not empty! Deleting contents before proceeding...\n"
-        rm -R $backupDir/*
+        rm -R ${backupDir:?}/*
         $exit 1
     fi
 }
