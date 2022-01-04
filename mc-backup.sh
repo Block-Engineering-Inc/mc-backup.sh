@@ -104,8 +104,8 @@ if ! ps -e | grep -q "java"; then
     serverRunning=false
 fi
 
-if [[ $(whoami) != "$serverUser" ]]; then
-    log "[$currentDay] Please use the user set constants.sh."
+if ! sudo -n true; then
+    log "[$currentDay] Please use user with sudo privileges."
     $exit 1
 fi
 
