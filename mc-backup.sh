@@ -13,6 +13,7 @@ worldsOnly=false
 pluginOnly=false
 pluginconfigOnly=false
 startStop=false
+regex="[0-9]+[MGkKm][Bb]?"
 
 exit=$( [[ $0 == -bash ]] && echo return || echo exit )
 
@@ -155,7 +156,7 @@ elapsedTimeEnd="$(date -u +%s)"
 elapsed="$(($elapsedTimeEnd-$elapsedTimeStart))"
 
 # Grabs size of item in backuplocation, assumes compressed item is only file in dir via deletebackup function
-compressedSize=$(du -sh $backupDir* | cut -c 1-3)
+compressedSize=$(du -sh $backupDir/*-$currentDay* | grep -P $regex)
 
 
 if $worldsOnly; then
@@ -168,9 +169,13 @@ elif $startStop; then
     log "[$currentDay] Restart in progress."
 else
     # Grabs size of Server file in kb for comparison on output
-    uncompressedSize=$(du -sh $serverDir* | cut -c 1-3)
+    uncompressedSize=$(du -sh $serverDir | grep -P $regex)
     log "[$currentDay] $serverDir compressed from $uncompressedSize to $compressedSize and copied to $backupDir in $((elapsed/60)) min(s)!\n"
 fi
+
+backupFolderSize=$(du -sh $backupDir | grep -P $regex)
+
+log "[$currentDay] The backup folder is already $backupFolderSize in size."
 
 if ! $serverRunning; then
     # start back again
