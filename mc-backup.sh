@@ -30,7 +30,7 @@ worldfoldercheck () {
     # Checks to make sure all the worlds defined in serverWorlds array exist as directories
     for item in "${serverWorlds[@]}"
     do
-        if [! -d $backupDir/$item ]; then
+        if [ ! -d $backupDir/$item ]; then
             log "[$currentDay] Error: World folder not found! Backup has been cancelled. ($backupDir/$item)\n"
             $exit 1
 	fi
@@ -103,7 +103,7 @@ if ! ps -e | grep -q "java"; then
     serverRunning=false
 fi
 
-if [[ $(whoami) != $serverUser ]]; then
+if [[ $(whoami) != "$serverUser" ]]; then
     log "[$currentDay] Please use the user set constants.sh."
     $exit 1
 fi
@@ -129,18 +129,18 @@ elapsedTimeStart="$(date -u +%s)"
 if $worldsOnly; then
     log "[$currentDay] Worlds only started ...\n"
     # Starts the tar with files from the void (/dev/null is a symlink to a non-existent dir) so that multiple files can be looped in from array then gziped together.
-    tar cf $backupDir/$serverName[WORLDS]-$currentDay.tar --files-from /dev/null
+    tar cf $backupDir/"$serverName"[WORLDS]-$currentDay.tar --files-from /dev/null
     for item in "${serverWorlds[@]}"
     do
-        tar rf $backupDir/$serverName[WORLDS]-$currentDay.tar "$serverDir/$item"
+        tar rf $backupDir/"$serverName"[WORLDS]-$currentDay.tar "$serverDir/$item"
     done
-    gzip $backupDir/$serverName[WORLDS]-$currentDay.tar
+    gzip $backupDir/"$serverName"[WORLDS]-$currentDay.tar
 elif $pluginOnly; then
     log "[$currentDay] Plugins only started...\n"
-    tar -czPf $backupDir/$serverName[PLUGINS]-$currentDay.tar.gz $serverDir/plugins
+    tar -czPf $backupDir/"$serverName"[PLUGINS]-$currentDay.tar.gz $serverDir/plugins
 elif $pluginconfigOnly; then
     log "[$currentDay] Plugin Configs only started...\n"
-    tar -czPf $backupDir/$serverName[PLUGIN-CONFIG]-$currentDay.tar.gz --exclude='*.jar' $serverDir/plugins
+    tar -czPf $backupDir/"$serverName"[PLUGIN-CONFIG]-$currentDay.tar.gz --exclude='*.jar' $serverDir/plugins
 elif $startStop; then
     log "[$currentDay] Skipping backup\n"
 else
