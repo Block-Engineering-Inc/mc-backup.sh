@@ -131,23 +131,23 @@ elapsedTimeStart="$(date -u +%s)"
 if $worldsOnly; then
     log "[$currentDay] Worlds only started ...\n"
     # Starts the tar with files from the void (/dev/null is a symlink to a non-existent dir) so that multiple files can be looped in from array then gziped together.
-    tar cf $backupDir/"$serverName"[WORLDS]-$currentDay.tar --files-from /dev/null
+    sudo -u $minecraftUser tar cf $backupDir/"$serverName"[WORLDS]-$currentDay.tar --files-from /dev/null
     for item in "${serverWorlds[@]}"
     do
-        tar rf $backupDir/"$serverName"[WORLDS]-$currentDay.tar "$serverDir/$item"
+        sudo -u $minecraftUser tar rf $backupDir/"$serverName"[WORLDS]-$currentDay.tar "$serverDir/$item"
     done
     gzip $backupDir/"$serverName"[WORLDS]-$currentDay.tar
 elif $pluginOnly; then
     log "[$currentDay] Plugins only started...\n"
-    tar -czPf $backupDir/"$serverName"[PLUGINS]-$currentDay.tar.gz $serverDir/plugins
+    sudo -u $minecraftUser tar -czPf $backupDir/"$serverName"[PLUGINS]-$currentDay.tar.gz $serverDir/plugins
 elif $pluginconfigOnly; then
     log "[$currentDay] Plugin Configs only started...\n"
-    tar -czPf $backupDir/"$serverName"[PLUGIN-CONFIG]-$currentDay.tar.gz --exclude='*.jar' $serverDir/plugins
+    sudo -u $minecraftUser tar -czPf $backupDir/"$serverName"[PLUGIN-CONFIG]-$currentDay.tar.gz --exclude='*.jar' $serverDir/plugins
 elif $startStop; then
     log "[$currentDay] Skipping backup\n"
 else
     log "[$currentDay] Full compression started...\n"
-    tar -czPf $backupDir/$serverName-$currentDay.tar.gz $serverDir
+    sudo -u $minecraftUser tar -czPf $backupDir/$serverName-$currentDay.tar.gz $serverDir
 fi
 
 # Grabs date in seconds AFTER compression completes then does math to find time it took to compress
