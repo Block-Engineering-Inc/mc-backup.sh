@@ -37,8 +37,8 @@ worldfoldercheck () {
 	fi
     done
 }
-deleteBackup () {
-    # Deletes contents of backupDir at start of every execution
+deleteBackup() {
+    # Deletes contents of backupDir
     if [ "$(ls -A $backupDir)" ]; then
 	log "[$currentDay] Warning: Backup directory not empty! Deleting contents before proceeding...\n"
         rm -R ${backupDir:?}/*

@@ -33,7 +33,6 @@ Crontab examples:
 - Full server backup every monday at 8 AM: ```00 8 * * 1 bash /home/me/mc-backup.sh```
 
 ## CAVEATS
-- TODO: add restart functionality
 - Only 1 or no arg can be called at a time.
 - only 1 screen session can be running on the system.
 - No way to disable auto restart of the server after a successful compression. 
