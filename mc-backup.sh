@@ -59,7 +59,8 @@ do
             -h | Help (this).
             -w | Compress worlds only.
             -p | Compress plugins only.
-            -pc | Compress plugin config files only."
+            -pc | Compress plugin config files only.
+            -r | Restarts the server."
         $exit 0
         ;;
       -w|--worlds)
