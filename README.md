@@ -38,3 +38,5 @@ Crontab examples:
 - only 1 screen session can be running on the system.
 - No way to disable auto restart of the server after a successful compression. 
 - Script will continue with 0 screens running and java not running but not if java is running and 0 screens. (already continues without exiting with 1 screen and java not running.) 
+
+TODO: create OCI backup plan
