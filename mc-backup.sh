@@ -3,8 +3,8 @@
 MC-BACKUP
 https://github.com/J-Bentley/mc-backup.sh'
 
-path_to_file=$(readlink -f $BASH_SOURCE)
-dirname=${path_to_file%/*}
+pathFile=$(readlink -f $BASH_SOURCE)
+dirname=${pathFile%/*}
 
 required_files=(constants.sh)
 
