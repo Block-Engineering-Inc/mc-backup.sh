@@ -24,7 +24,7 @@ if [ ! -d "$backupDir" ]; then
     $exit 1
 fi
 
-if [ -z "$backupBucket" ]; then
+if [ -z "$backupBucket" -a -z "$1" ]; then
     log "[$currentDay] Error: No backup bucket defined! Backup has been cancelled.\n"
     $exit 1
 fi
