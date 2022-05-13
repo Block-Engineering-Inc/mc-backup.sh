@@ -16,6 +16,7 @@ log () {
 
 for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
 
+oci_path=$(which oci)
 oci_version=$(oci --version)
 
 # Check for backup folder existence
@@ -37,4 +38,4 @@ fi
 backup_files=($(ls $backupDir))
 
 log "[$currentDay] Backup files: ${backup_files[-1]}\n"
-oci os object put -bn "$backupBucket" --file "$backupDir/${backup_files[-1]}" --name "${backup_files[-1]}" | tee -a "$logFile"
+$oci_path os object put -bn "$backupBucket" --file "$backupDir/${backup_files[-1]}" --name "${backup_files[-1]}" | tee -a "$logFile"
