@@ -11,7 +11,7 @@ exit=$( [[ $0 == -bash ]] && echo return || echo exit )
 
 log () {
     # Echos text passed to function and appends to file at same time
-    builtin echo -e "$@" | tee -a mc-backup.log
+    builtin echo -e "$@" | tee -a "$logFile"
 }
 
 for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
@@ -37,4 +37,4 @@ fi
 backup_files=($(ls $backupDir))
 
 log "[$currentDay] Backup files: ${backup_files[-1]}\n"
-oci os object put -bn "$backupBucket" --file "$backupDir/${backup_files[-1]}" --name "${backup_files[-1]}"
+oci os object put -bn "$backupBucket" --file "$backupDir/${backup_files[-1]}" --name "${backup_files[-1]}" | tee "$logFile"
