@@ -31,4 +31,4 @@ fi
 
 backup_files=($(ls $backupDir))
 
-oci os object put -bn $backupBucket --file "$backupDir/${backup_files[-1]}" --name $backup_files
+oci os object put -bn "$backupBucket" --file "$backupDir/${backup_files[-1]}" --name "$backup_files[-1]"
