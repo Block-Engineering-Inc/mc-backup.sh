@@ -5,6 +5,8 @@ dirname=${pathFile%/*}
 
 required_files=(constants.sh)
 
+source "$dirname"/constants.sh
+
 exit=$( [[ $0 == -bash ]] && echo return || echo exit )
 
 for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
