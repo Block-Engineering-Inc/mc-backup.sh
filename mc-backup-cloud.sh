@@ -27,6 +27,11 @@ fi
 if [ -z "$backupBucket" -a -z "$1" ]; then
     log "[$currentDay] Error: No backup bucket defined! Backup has been cancelled.\n"
     $exit 1
+elif [ -z "$backupBucket" -a -n "$1" ]; then
+    backupBucket="$1"
+    log "[$currentDay] Backup bucket defined: $backupBucket\n"
+else
+    log "[$currentDay] Backup bucket defined: $backupBucket\n"
 fi
 
 backup_files=($(ls $backupDir))
