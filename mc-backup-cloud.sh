@@ -36,4 +36,5 @@ fi
 
 backup_files=($(ls $backupDir))
 
+log "[$currentDay] Backup files: ${backup_files[-1]}\n"
 oci os object put -bn "$backupBucket" --file "$backupDir/${backup_files[-1]}" --name "$backup_files[-1]"
