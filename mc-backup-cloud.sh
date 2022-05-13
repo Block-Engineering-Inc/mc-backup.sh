@@ -9,13 +9,18 @@ source "$dirname"/constants.sh
 
 exit=$( [[ $0 == -bash ]] && echo return || echo exit )
 
+log () {
+    # Echos text passed to function and appends to file at same time
+    builtin echo -e "$@" | tee -a mc-backup.log
+}
+
 for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
 
 oci_version=$(oci --version)
 
 # Check for backup folder existence
 if [ ! -d "$backupDir" ]; then
-    "[$currentDay] Error: Backup folder not found! Backup has been cancelled. ($backupDir)\n"
+    log "[$currentDay] Error: Backup folder not found! Backup has been cancelled. ($backupDir)\n"
     $exit 1
 fi
 
