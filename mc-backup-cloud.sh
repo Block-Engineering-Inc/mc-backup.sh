@@ -16,7 +16,6 @@ log () {
 
 for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
 
-oci_path=$(which oci)
 oci_version=$(oci --version)
 
 # Check for backup folder existence

@@ -12,3 +12,4 @@ minecraftUser="minecraft"
 # Program Oriented
 currentDay=$(date +"%Y-%m-%d-%H:%M")
 logFile="mc-backup.log"
+oci_path="/home/ubuntu/bin/oci"
