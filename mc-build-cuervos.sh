@@ -10,6 +10,28 @@ for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} n
 source "$dirname"/constants.sh
 source "$dirname"/lib.sh
 
+serverRunning=true
+
+# Logs error if JAVA process isn't detected but will continue anyways!!
+if ! pgrep -u "$minecraftUser" "java"; then
+    log "[$currentDay] Warning: $serverName is not running! Continuing without in-game warnings...\n"
+    serverRunning=false
+fi
+
+# Wont do anything if server is running - Stop it
+if $serverRunning; then
+    log "[$currentDay] Server is running. Stopping it..."
+    # Restart the server logic
+    source "$dirname"/mc-manage-server.sh
+    
+    stopMessage
+    log "[$currentDay] Sent players message"
+
+    stopServer
+    log "[$currentDay] Server stopped"
+    serverRunning=false
+fi
+
 if [ -z "$websiteBucket" -a -z "$1" ]; then
     log "[$currentDay] Error: No website bucket defined! Upload has been cancelled.\n"
     $exit 1
@@ -25,3 +47,11 @@ $overviewer_path $serverDir/world/ $overviewer_site
 
 log "[$currentDay] Website: Uploading the build\n"
 $oci_path os object bulk-upload -bn $websiteBucket --src-dir $overviewer_site/world-lighting/ --overwrite --prefix "world-lighting/"
+
+if ! $serverRunning; then
+    # start back again
+
+    startServer
+    log "[$currentDay] Server is starting."
+fi
+$exit 0
