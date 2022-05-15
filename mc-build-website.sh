@@ -42,7 +42,7 @@ if $serverRunning; then
     serverRunning=false
 fi
 
-log "[$currentDay] Website: Starting the build\n"
+log "[$currentDay] Website: Starting the build for $overviewer_site\n"
 $overviewer_path $serverDir/world/ $overviewer_site
 
 log "[$currentDay] Website: Uploading the build\n"
