@@ -1,12 +1,14 @@
 #!/bin/bash
-: '
-MC-BACKUP
-https://github.com/J-Bentley/mc-backup.sh'
 
 pathFile=$(readlink -f "$BASH_SOURCE")
 dirname=${pathFile%/*}
 
-required_files=(constants.sh)
+required_files=(constants.sh lib.sh)
+
+for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
+
+source "$dirname"/constants.sh
+source "$dirname"/lib.sh
 
 serverRunning=true
 worldsOnly=false
@@ -14,19 +16,6 @@ pluginOnly=false
 pluginconfigOnly=false
 startStop=false
 regex="[0-9]+[MGkKm][Bb]?"
-
-exit=$( [[ $0 == -bash ]] && echo return || echo exit )
-
-log () {
-    # Echos text passed to function and appends to file at same time
-    builtin echo -e "$@" | tee -a "$logFile"
-}
-
-# Do we execute?
-
-for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
-
-source "$dirname"/constants.sh
 
 worldfoldercheck () {
     # Checks to make sure all the worlds defined in serverWorlds array exist as directories

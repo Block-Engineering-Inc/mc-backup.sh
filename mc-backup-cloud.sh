@@ -3,20 +3,12 @@
 pathFile=$(readlink -f "$BASH_SOURCE")
 dirname=${pathFile%/*}
 
-required_files=(constants.sh)
-
-source "$dirname"/constants.sh
-
-exit=$( [[ $0 == -bash ]] && echo return || echo exit )
-
-log () {
-    # Echos text passed to function and appends to file at same time
-    builtin echo -e "$@" | tee -a "$logFile"
-}
+required_files=(constants.sh lib.sh)
 
 for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} not found. Exiting..."; $exit; }; }
 
-oci_version=$(oci --version)
+source "$dirname"/constants.sh
+source "$dirname"/lib.sh
 
 # Check for backup folder existence
 if [ ! -d "$backupDir" ]; then
