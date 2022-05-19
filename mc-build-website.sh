@@ -43,7 +43,7 @@ if $serverRunning; then
 fi
 
 log "[$currentDay] Website: Starting the build for $overviewer_site\n"
-$overviewer_path $serverDir/world/ $overviewer_site
+$overviewer_path --config $overviewer_config
 
 log "[$currentDay] Website: Uploading the build\n"
 $oci_path os object bulk-upload -bn $websiteBucket --src-dir $overviewer_site/world-lighting/ --overwrite --prefix "world-lighting/"
