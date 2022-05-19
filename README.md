@@ -18,8 +18,7 @@ These scripts can be used separately defined by the calls in cron. So if not usi
 The program oriented variables serve to use other related functionality that do not focus in the server backup.
 - **logFile** = Name of the file to save the log in the home user folder.
 - **oci_path** = Path to the [OCI CLI](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cliconcepts.htm) executable.
-- **overviewer_path** = Path to the overviewer python script.
-- **overviewer_site** = Path to the site built by overviewer.
+- **overviewer_config** = Path to the overviewer conf script.
 
 2. Do not forget that the scripts relly on Minecraft running as a service. For more info check [this-link](https://linuxconfig.org/ubuntu-20-04-minecraft-server-setup).
 
