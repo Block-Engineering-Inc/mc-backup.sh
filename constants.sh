@@ -10,10 +10,11 @@ serviceName="minecraft@survival.service"
 minecraftUser="minecraft"
 
 # Cloud and Website Oriented
-logFile="mc-backup.log"
+logFile="/home/ubuntu/projects/mc-backup.sh/mc-backup.log"
 oci_path="/home/ubuntu/bin/oci"
 overviewer_path="/home/ubuntu/projects/Minecraft-Overviewer/overviewer.py"
-overviewer_config="/home/ubuntu/projects/cuervos-map/server-prd.conf"
+overviewer_config="/home/ubuntu/projects/cuervos-map/server.conf"
+overviewer_site="/home/ubuntu/projects/cuervos-map"
 
 # Avoid changing
 currentDay=$(date +"%Y-%m-%d-%H:%M")
