@@ -47,8 +47,8 @@ $overviewer_path --config $overviewer_config --genpoi
 $overviewer_path --config $overviewer_config
 
 log "[$currentDay] Website: Uploading the build\n"
-$oci_path os object put -bn $websiteBucket --file $overviewer_site/markers.js --name markers.js
-$oci_path os object put -bn $websiteBucket --file $overviewer_site/markersDB.js --name markersDB.js
+$oci_path os object put -bn $websiteBucket --file $overviewer_site/markers.js --name markers.js --force
+$oci_path os object put -bn $websiteBucket --file $overviewer_site/markersDB.js --name markersDB.js --force
 $oci_path os object bulk-upload -bn $websiteBucket --src-dir $overviewer_site/normalrender/ --overwrite --prefix "normalrender/"
 $oci_path os object bulk-upload -bn $websiteBucket --src-dir $overviewer_site/survivalnether/ --overwrite --prefix "survivalnether/"
 
