@@ -46,6 +46,9 @@ log "[$currentDay] Website: Starting the build for $overviewer_site\n"
 $overviewer_path --config $overviewer_config --genpoi
 $overviewer_path --config $overviewer_config
 
+sed -i -E 's/"icon": "(\w+\.\w+)"/"icon": baseUrl.concat("", "\1")/' markers.js
+sed -i -e '1i\var baseUrl = staticurl;' markers.js
+
 log "[$currentDay] Website: Uploading the build\n"
 $oci_path os object put -bn $websiteBucket --file $overviewer_site/markers.js --name markers.js --force
 $oci_path os object put -bn $websiteBucket --file $overviewer_site/markersDB.js --name markersDB.js --force
