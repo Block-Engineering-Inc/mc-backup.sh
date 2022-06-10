@@ -55,7 +55,8 @@ fi
 versionManifestUrl=$(curl --silent 'https://launchermeta.mojang.com/mc/game/version_manifest.json' | jq --arg VANILLA_VERSION "$mc_version" --raw-output '[.versions[]|select(.id == $VANILLA_VERSION)][0].url')
 mc_download_url=$(curl --silent $versionManifestUrl | jq '.downloads.server.url')
 
-wget -q -O "$serverDir"/minecraft_server.jar "$mc_download_url"
+sudo su - minecraft wget -q -O "$serverDir"/minecraft_server.jar "$mc_download_url"
+sudo chown "$minecraftUser":"$minecraftUser" "$serverDir"/minecraft_server.jar
 
 if ! $serverRunning; then
     # start back again
