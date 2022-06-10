@@ -47,7 +47,10 @@ if [ -f "$serverDir"/minecraft_server.jar.old ]; then
     sudo rm "$serverDir"/minecraft_server.jar.old
 fi
 
-sudo mv "$serverDir"/minecraft_server.jar "$serverDir"/minecraft_server.jar.old
+if [ -f "$serverDir"/minecraft_server.jar ]; then
+    log "[$currentDay] Moving old server jar..."
+    sudo mv "$serverDir"/minecraft_server.jar "$serverDir"/minecraft_server.jar.old
+fi
 
 versionManifestUrl=$(curl --silent 'https://launchermeta.mojang.com/mc/game/version_manifest.json' | jq --arg VANILLA_VERSION "$mc_version" --raw-output '[.versions[]|select(.id == $VANILLA_VERSION)][0].url')
 mc_download_url=$(curl --silent $versionManifestUrl | jq '.downloads.server.url')
