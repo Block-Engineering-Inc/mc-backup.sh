@@ -41,6 +41,11 @@ Crontab examples:
 - Backup just plugin config files every friday: ```00 24 * * 6 bash /home/me/mc-backup.sh/mc-backup.sh -pc```
 - Full server backup every monday at 8 AM: ```00 8 * * 1 bash /home/me/mc-backup.sh/mc-backup.sh```
 - Upload server backup to Oracle Object Storage every week: ```30 7 * * 1 /home/me/mc-backup.sh/mc-backup-cloud.sh BackupBucket```
+```
+0 7 * * 1,3,5 /home/ubuntu/projects/mc-backup.sh/mc-backup.sh
+30 7 * * 1 /home/ubuntu/projects/mc-backup.sh/mc-backup-cloud.sh BackupBucket
+0 7 * * 2,4,6 /home/ubuntu/projects/mc-backup.sh/mc-build-website.sh websiteBucket
+```
 
 ## CAVEATS
 - Only 1 or no arg can be called at a time.
