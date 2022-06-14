@@ -14,7 +14,7 @@ maxBackupCount=14
 backupFilesCount=$(ls "$backupDir" | wc -w)
 backup_files=($(ls $backupDir))
 
-log "[$currentDay] Amount of backups are at $backupFilesCount\n"
+log "[$currentDay] Amount of backups are at $backupFilesCount files\n"
 
 if [ "$backupFilesCount" -gt "$maxBackupCount" ]; then
     diff=$(("$backupFilesCount"-"$maxBackupCount"-1))
