@@ -18,7 +18,7 @@ log "[$currentDay] Amount of backups are at $backupFilesCount\n"
 
 if [ "$backupFilesCount" -gt "$maxBackupCount" ]; then
     diff=$(("$backupFilesCount"-"$maxBackupCount"-1))
-    log "[$currentDay] Amount of backups have surpassed $maxBackupCount. Deleting $diff old files.\n"
+    log "[$currentDay] Amount of backups have surpassed $maxBackupCount. Deleting ($($diff+1)) old files.\n"
     for i in $(seq 0 $diff); do
         file="${backup_files[i]}"
         log "[$currentDay] Deleting $file.\n"
