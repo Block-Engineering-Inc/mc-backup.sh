@@ -23,7 +23,7 @@ if [ "$backupFilesCount" -gt "$maxBackupCount" ]; then
     for i in $(seq 0 $diff); do
         file="${backup_files[i]}"
         log "[$currentDay] Deleting $file.\n"
-        sudo -u "$minecraftUser" rm "$file"
+        sudo -u "$minecraftUser" rm "$backupDir/$file"
     done
 fi
 
