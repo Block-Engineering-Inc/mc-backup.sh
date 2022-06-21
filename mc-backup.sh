@@ -147,7 +147,7 @@ elapsedTimeEnd="$(date -u +%s)"
 elapsed="$(($elapsedTimeEnd-$elapsedTimeStart))"
 
 # Grabs size of item in backuplocation, assumes compressed item is only file in dir via deletebackup function
-compressedSize=$(du -sh "$backupDir"/"$serverName"-"$fixedCurrentDay" | grep -P "$regex")
+compressedSize=$(du -sh "$backupDir"/"$serverName"-"$fixedCurrentDay".tar.gz | grep -P "$regex")
 
 
 if $worldsOnly; then
