@@ -33,6 +33,8 @@ if [ "$backupFilesCount" -gt "$maxBackupCount" ]; then
     done
 fi
 
+log "[$(currentDay)] Amount of Cloud Backups are at $cloudBackupFilesCount files\n"
+
 if [ "$cloudBackupFilesCount" -gt "$maxBackupCount" ]; then
     diff=$(("$cloudBackupFilesCount"-"$maxBackupCount"-1))
     diffLog=$(("$diff"+1))
