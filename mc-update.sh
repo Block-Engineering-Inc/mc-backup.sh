@@ -13,42 +13,42 @@ source "$dirname"/lib.sh
 serverRunning=true
 
 if [ -z "$mc_version" -a -z "$1" ]; then
-    log "[$currentDay] Error: No Version defined! Update has been cancelled.\n"
+    log "[$(currentDay)] Error: No Version defined! Update has been cancelled.\n"
     $exit 1
 elif [ -z "$mc_version" -a -n "$1" ]; then
     mc_version="$1"
-    log "[$currentDay] Version defined: $mc_version\n"
+    log "[$(currentDay)] Version defined: $mc_version\n"
 else
-    log "[$currentDay] Version defined: $mc_version\n"
+    log "[$(currentDay)] Version defined: $mc_version\n"
 fi
 
 # Logs error if JAVA process isn't detected but will continue anyways!!
 if ! pgrep -u "$minecraftUser" "java"; then
-    log "[$currentDay] Warning: $serverName is not running! Continuing without in-game warnings...\n"
+    log "[$(currentDay)] Warning: $serverName is not running! Continuing without in-game warnings...\n"
     serverRunning=false
 fi
 
 # Wont do anything if server is running - Stop it
 if $serverRunning; then
-    log "[$currentDay] Server is running. Stopping it..."
+    log "[$(currentDay)] Server is running. Stopping it..."
     # Restart the server logic
     source "$dirname"/mc-manage-server.sh
     
     stopMessage
-    log "[$currentDay] Sent players message"
+    log "[$(currentDay)] Sent players message"
 
     stopServer
-    log "[$currentDay] Server stopped"
+    log "[$(currentDay)] Server stopped"
     serverRunning=false
 fi
 
 if [ -f "$serverDir"/minecraft_server.jar.old ]; then
-    log "[$currentDay] Server jar found. Deleting it..."
+    log "[$(currentDay)] Server jar found. Deleting it..."
     sudo rm "$serverDir"/minecraft_server.jar.old
 fi
 
 if [ -f "$serverDir"/minecraft_server.jar ]; then
-    log "[$currentDay] Moving old server jar..."
+    log "[$(currentDay)] Moving old server jar..."
     sudo mv "$serverDir"/minecraft_server.jar "$serverDir"/minecraft_server.jar.old
 fi
 
@@ -62,6 +62,6 @@ if ! $serverRunning; then
     # start back again
 
     startServer
-    log "[$currentDay] Server is starting."
+    log "[$(currentDay)] Server is starting."
 fi
 $exit 0

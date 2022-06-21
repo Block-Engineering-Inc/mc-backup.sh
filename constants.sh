@@ -15,6 +15,3 @@ oci_path="/home/ubuntu/bin/oci"
 overviewer_path="/home/ubuntu/projects/Minecraft-Overviewer/overviewer.py"
 overviewer_config="/home/ubuntu/projects/cuervos-map/server.conf"
 overviewer_site="/home/ubuntu/projects/cuervos-map"
-
-# Avoid changing
-currentDay=$(date +"%Y-%m-%d-%H:%M")

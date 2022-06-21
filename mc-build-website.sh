@@ -14,42 +14,42 @@ serverRunning=true
 
 # Logs error if JAVA process isn't detected but will continue anyways!!
 if ! pgrep -u "$minecraftUser" "java"; then
-    log "[$currentDay] Warning: $serverName is not running! Continuing without in-game warnings...\n"
+    log "[$(currentDay)] Warning: $serverName is not running! Continuing without in-game warnings...\n"
     serverRunning=false
 fi
 
 if [ -z "$websiteBucket" -a -z "$1" ]; then
-    log "[$currentDay] Error: No website bucket defined! Upload has been cancelled.\n"
+    log "[$(currentDay)] Error: No website bucket defined! Upload has been cancelled.\n"
     $exit 1
 elif [ -z "$websiteBucket" -a -n "$1" ]; then
     websiteBucket="$1"
-    log "[$currentDay] website bucket defined: $websiteBucket\n"
+    log "[$(currentDay)] website bucket defined: $websiteBucket\n"
 else
-    log "[$currentDay] website bucket defined: $websiteBucket\n"
+    log "[$(currentDay)] website bucket defined: $websiteBucket\n"
 fi
 
 # Wont do anything if server is running - Stop it
 if $serverRunning; then
-    log "[$currentDay] Server is running. Stopping it..."
+    log "[$(currentDay)] Server is running. Stopping it..."
     # Restart the server logic
     source "$dirname"/mc-manage-server.sh
     
     stopMessage
-    log "[$currentDay] Sent players message"
+    log "[$(currentDay)] Sent players message"
 
     stopServer
-    log "[$currentDay] Server stopped"
+    log "[$(currentDay)] Server stopped"
     serverRunning=false
 fi
 
-log "[$currentDay] Website: Starting the build for $overviewer_site\n"
+log "[$(currentDay)] Website: Starting the build for $overviewer_site\n"
 $overviewer_path --config "$overviewer_config" --genpoi
 $overviewer_path --config "$overviewer_config"
 
 sed -i -E 's/"icon": "(\w+\.\w+)"/"icon": baseUrl.concat("", "\1")/' "$overviewer_site"/markers.js
 sed -i -e '1i\var baseUrl = staticurl;' "$overviewer_site"/markers.js
 
-log "[$currentDay] Website: Uploading the build\n"
+log "[$(currentDay)] Website: Uploading the build\n"
 $oci_path os object put -bn "$websiteBucket" --file "$overviewer_site"/markers.js --name markers.js --force
 $oci_path os object put -bn "$websiteBucket" --file "$overviewer_site"/markersDB.js --name markersDB.js --force
 $oci_path os object bulk-upload -bn "$websiteBucket" --src-dir "$overviewer_site"/normalrender/ --overwrite --prefix "normalrender/"
@@ -59,6 +59,6 @@ if ! $serverRunning; then
     # start back again
 
     startServer
-    log "[$currentDay] Server is starting."
+    log "[$(currentDay)] Server is starting."
 fi
 $exit 0

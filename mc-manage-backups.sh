@@ -10,20 +10,37 @@ for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} n
 source "$dirname"/constants.sh
 source "$dirname"/lib.sh
 
-maxBackupCount=14
-backupFilesCount=$(ls "$backupDir" | wc -w)
-backup_files=($(ls $backupDir))
+checkBackupBucket "$1"
 
-log "[$currentDay] Amount of backups are at $backupFilesCount files\n"
+maxBackupCount=14
+
+backupFilesCount=$(ls "$backupDir" | wc -w)
+backupFiles=($(ls "$backupDir"))
+
+cloudBackupFilesCount=$($oci_path os object list -bn "$backupBucket" | jq '.data | length')
+mapfile -r cloudBackupFiles < <($oci_path os object list -bn "$backupBucket" | jq --raw-output '.data | .[] | .name' | sort)
+
+log "[$(currentDay)] Amount of backups are at $backupFilesCount files\n"
 
 if [ "$backupFilesCount" -gt "$maxBackupCount" ]; then
     diff=$(("$backupFilesCount"-"$maxBackupCount"-1))
     diffLog=$(("$diff"+1))
-    log "[$currentDay] Amount of backups have surpassed $maxBackupCount. Deleting $diffLog old files.\n"
+    log "[$(currentDay)] Amount of backups have surpassed $maxBackupCount. Deleting $diffLog old files.\n"
     for i in $(seq 0 $diff); do
-        file="${backup_files[i]}"
-        log "[$currentDay] Deleting $file.\n"
+        file="${backupFiles[i]}"
+        log "[$(currentDay)] Local | Deleting $file.\n"
         sudo -u "$minecraftUser" rm "$backupDir/$file"
+    done
+fi
+
+if [ "$cloudBackupFilesCount" -gt "$maxBackupCount" ]; then
+    diff=$(("$cloudBackupFilesCount"-"$maxBackupCount"-1))
+    diffLog=$(("$diff"+1))
+    log "[$(currentDay)] Amount of Cloud backups have surpassed $maxBackupCount. Deleting $diffLog old files.\n"
+    for i in $(seq 0 $diff); do
+        file="${cloudBackupFiles[i]}"
+        log "[$(currentDay)] Cloud | Deleting $file.\n"
+        $oci_path os object delete -bn "$backupBucket" ---object-name "$file"
     done
 fi
 
