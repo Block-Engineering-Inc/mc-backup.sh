@@ -116,6 +116,7 @@ fi
 
 # Grabs date in seconds BEFORE compression begins
 elapsedTimeStart="$(date -u +%s)"
+fixedCurrentDay="$(currentDay)"
 
 # LOGIC HANDLING
 if $worldsOnly; then
@@ -137,7 +138,8 @@ elif $startStop; then
     log "[$(currentDay)] Skipping backup\n"
 else
     log "[$(currentDay)] Full compression started...\n"
-    sudo -u "$minecraftUser" tar -czPf "$backupDir"/"$serverName"-"$(currentDay)".tar.gz "$serverDir"
+    sudo -u "$minecraftUser" tar -czPf "$backupDir"/"$serverName"-"$fixedCurrentDay".tar.gz "$serverDir"
+    log "[$(currentDay)] Compressed file: $backupDir/$serverName-$fixedCurrentDay.tar.gz"
 fi
 
 # Grabs date in seconds AFTER compression completes then does math to find time it took to compress
@@ -145,7 +147,7 @@ elapsedTimeEnd="$(date -u +%s)"
 elapsed="$(($elapsedTimeEnd-$elapsedTimeStart))"
 
 # Grabs size of item in backuplocation, assumes compressed item is only file in dir via deletebackup function
-compressedSize=$(du -sh "$backupDir"/*-"$(currentDay)"* | grep -P "$regex")
+compressedSize=$(du -sh "$backupDir"/"$serverName"-"$fixedCurrentDay" | grep -P "$regex")
 
 
 if $worldsOnly; then
