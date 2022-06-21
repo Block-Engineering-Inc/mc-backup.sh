@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# User Specific Oriented
+# Backup Oriented
 serverDir="/opt/minecraft/survival"
 backupDir="/opt/minecraft/full-backups"
 serverName="survival"
@@ -9,7 +9,9 @@ serverWorlds=("world")
 serviceName="minecraft@survival.service"
 minecraftUser="minecraft"
 
-# Program Oriented
-currentDay=$(date +"%Y-%m-%d-%H:%M")
-logFile="mc-backup.log"
+# Cloud and Website Oriented
+logFile="/home/ubuntu/projects/mc-backup.sh/mc-backup.log"
 oci_path="/home/ubuntu/bin/oci"
+overviewer_path="/home/ubuntu/projects/Minecraft-Overviewer/overviewer.py"
+overviewer_config="/home/ubuntu/projects/cuervos-map/server.conf"
+overviewer_site="/home/ubuntu/projects/cuervos-map"
