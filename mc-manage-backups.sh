@@ -18,7 +18,7 @@ backupFilesCount=$(ls "$backupDir" | wc -w)
 backupFiles=($(ls "$backupDir"))
 
 cloudBackupFilesCount=$($oci_path os object list -bn "$backupBucket" | jq '.data | length')
-mapfile -r cloudBackupFiles < <($oci_path os object list -bn "$backupBucket" | jq --raw-output '.data | .[] | .name' | sort)
+mapfile -t cloudBackupFiles < <($oci_path os object list -bn "$backupBucket" | jq --raw-output '.data | .[] | .name' | sort)
 
 log "[$(currentDay)] Amount of backups are at $backupFilesCount files\n"
 
