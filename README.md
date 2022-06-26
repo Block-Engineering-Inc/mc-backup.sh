@@ -20,6 +20,13 @@ The program oriented variables serve to use other related functionality that do 
 - **oci_path** = Path to the [OCI CLI](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/cliconcepts.htm) executable.
 - **overviewer_path** = Path to overviewer.
 - **overviewer_config** = Path to the overviewer conf script. Example: https://pastebin.com/Qzq6JJK9
+- **overviewer_site** = Path to the overviewer site. (Where it will be built)
+- **python_path** = Path to the python executable. (To run overviewer build)
+
+The Geyser variables are related to the [Geyser server](https://geysermc.org/).
+- **geyser_path** = Path to the Geyser server executable.
+- **geyser_user** = The username of the Geyser server.
+- **geyser_service** = The name of the Geyser service.
 
 2. Do not forget that the scripts relly on Minecraft running as a service. For more info check [this-link](https://linuxconfig.org/ubuntu-20-04-minecraft-server-setup).
 
