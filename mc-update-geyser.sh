@@ -10,10 +10,22 @@ for v in ${required_files[*]}; { [[ -r "$dirname"/${v} ]] || { echo "File ${v} n
 source "$dirname"/constants.sh
 source "$dirname"/lib.sh
 
+stopGeyser(){
+    sudo systemctl stop "$geyser_service"
+    log "[$(currentDay)] Stopped Service $geyser_service"
+}
+
+startGeyser(){
+    sudo systemctl start "$geyser_service"
+    log "[$(currentDay)] Started Service $geyser_service"
+}
+
 if ! sudo -n true; then
     log "[$(currentDay)] Please use user with sudo privileges."
     $exit 1
 fi
+
+stopGeyser
 
 if [ -f "$geyser_path" ]; then
     log "[$(currentDay)] Geyser found. Checking for updates..."
@@ -24,5 +36,7 @@ if [ -f "$geyser_path" ]; then
     sudo -u "$geyser_user" wget -O "$geyser_folder/Geyser.jar" "$geyser_link"
     log "[$(currentDay)] Geyser updated."
 fi
+
+startGeyser
 
 $exit 0

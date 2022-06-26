@@ -20,3 +20,4 @@ python_path="/usr/bin/python3"
 # Geyser Oriented
 geyser_path="/opt/geyser/Geyser.jar"
 geyser_user="geyser"
+geyser_service="geyser"
