@@ -15,3 +15,9 @@ oci_path="/home/ubuntu/bin/oci"
 overviewer_path="/home/ubuntu/projects/Minecraft-Overviewer/overviewer.py"
 overviewer_config="/home/ubuntu/projects/cuervos-map/server.conf"
 overviewer_site="/home/ubuntu/projects/cuervos-map"
+python_path="/usr/bin/python3"
+
+# Geyser Oriented
+geyser_path="/opt/geyser/Geyser.jar"
+geyser_user="geyser"
+geyser_service="geyser"
