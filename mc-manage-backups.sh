@@ -42,7 +42,7 @@ if [ "$cloudBackupFilesCount" -gt "$maxBackupCount" ]; then
     for i in $(seq 0 $diff); do
         file="${cloudBackupFiles[i]}"
         log "[$(currentDay)] Cloud | Deleting $file.\n"
-        $oci_path os object delete -bn "$backupBucket" ---object-name "$file"
+        $oci_path os object delete --force -bn "$backupBucket" --object-name "$file"
     done
 fi
 
