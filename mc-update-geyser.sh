@@ -32,7 +32,7 @@ if [ -f "$geyser_path" ]; then
     geyser_folder=$(dirname "$geyser_path")
     sudo -u "$geyser_user" mv "$geyser_folder"/Geyser.jar "$geyser_folder"/Geyser.jar.old
     log "[$(currentDay)] Geyser backup made. Creating old file..."
-    geyser_link="https://ci.opencollab.dev//job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/target/Geyser.jar"
+    geyser_link="https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/build/libs/Geyser-Standalone.jar"
     sudo -u "$geyser_user" wget -O "$geyser_folder/Geyser.jar" "$geyser_link"
     log "[$(currentDay)] Geyser updated."
 fi
